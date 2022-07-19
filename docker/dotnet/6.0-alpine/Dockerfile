@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
+
+ARG PROJECT_NAME
+
+WORKDIR /app
+EXPOSE 80
+
+COPY . ./
+
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV PROJECT=${PROJECT_NAME}.dll
+
+ENTRYPOINT dotnet $PROJECT
