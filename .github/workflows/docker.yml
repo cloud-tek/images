@@ -34,10 +34,10 @@ jobs:
         docker login --username cloud-tek --password ${{ github.token }} ghcr.io
     - shell: bash
       name: docker build
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}
       run: |
         docker build \
-          --file ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}/Dockerfile \
+          --file ./Dockerfile \
           --build-arg VERSION=${{ matrix.service.version }} \
           -t ghcr.io/cloud-tek/${{ matrix.service.name }}:latest \
           -t ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ matrix.service.version }} \
