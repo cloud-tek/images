@@ -34,7 +34,7 @@ jobs:
         docker login --username cloud-tek --password ${{ github.token }} ghcr.io
     - shell: bash
       name: docker build
-      working-directory: ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}
+      working-directory: ${{ github.workspace }}/images/docker/${{ matrix.service.area }}/${{ matrix.service.name }}
       run: |
         docker build \
           --file ./Dockerfile \
