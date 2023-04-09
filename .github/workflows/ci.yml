@@ -33,7 +33,6 @@ jobs:
   build-images:
     uses: ./.github/workflows/docker.yml
     with:
-      version: ${{ needs.build.outputs.version }}
       services: |
         [
           {
