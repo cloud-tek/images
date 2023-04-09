@@ -24,15 +24,21 @@ jobs:
         fetch-depth: "0"
         token: ${{ github.token }}
     - shell: bash
+      name: diag
+      run: |
+        pwd
+        tree ${{ github.workspace }}
+    - shell: bash
       name: docker login
       run: |
         docker login --username cloud-tek --password ${{ github.token }} ghcr.io
     - shell: bash
       name: docker build
-      working-directory: ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}
+      working-directory: ${{ github.workspace }}
       run: |
         tree ${{ github.workspace }}
         docker build \
+          --file ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}/Dockerfile
           --build-arg VERSION=${{ matrix.service.version }} \
           -t ghcr.io/cloud-tek/${{ matrix.service.name }}:latest \
           -t ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ matrix.service.version }} \
