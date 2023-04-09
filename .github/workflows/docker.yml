@@ -1,0 +1,49 @@
+name: "docker"
+
+on:
+  workflow_call:
+    inputs:
+      services:
+        description: "Services matrix (json)"
+        type: string
+        required: true
+
+jobs:
+  docker:
+    strategy:
+      matrix:
+        service: ${{ fromJson(inputs.services) }}
+    name: ${{ matrix.service.id }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: cloud-tek/images
+        ref: main
+        path: images
+        fetch-depth: "0"
+        token: ${{ github.token }}
+    - shell: bash
+      name: docker login
+      run: |
+        docker login --username cloud-tek --password ${{ github.token }} ghcr.io
+    - shell: bash
+      name: docker build
+      working-directory: ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}
+      run: |
+        tree ${{ github.workspace }}
+        docker build \
+          --build-arg VERSION=${{ matrix.service.version }} \
+          -t ghcr.io/cloud-tek/${{ matrix.service.name }}:latest \
+          -t ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ matrix.service.version }} \
+          .
+    - shell: bash
+      name: docker push
+      working-directory: artifacts/services/${{ matrix.service.name }}
+      run: |
+        docker push ghcr.io/cloud-tek/${{ matrix.service.name }}:latest
+        docker push ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ inputs.version }}
+    - shell: bash
+      name: docker logout
+      run: |
+        docker logout

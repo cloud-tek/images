@@ -1,0 +1,44 @@
+name: ci
+
+env:
+  NETCORE_VERSION: 7.0.100
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  DOTNET_ROLL_FORWARD: Major
+
+on:
+  push:
+    branches:
+    - main
+    - feature/*
+    - release/*
+    paths:
+      - ".github/workflows/**"
+      - "build/**"
+      - "src/**"
+      - "tests/**"
+      - "GitVersion.yml"
+  pull_request:
+    types:
+    - closed
+    branches:
+    - main
+    paths:
+      - ".github/workflows/**"
+      - "docker/**"
+      - "GitVersion.yml"
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  build-images:
+    uses: ./.github/workflows/docker.yml
+    with:
+      version: ${{ needs.build.outputs.version }}
+      services: |
+        [
+          {
+            "area": "argocd",
+            "name": "argocd-vault-plugin",
+            "version": "1.14.0"
+          }
+        ]
