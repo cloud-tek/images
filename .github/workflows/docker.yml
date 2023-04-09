@@ -38,7 +38,7 @@ jobs:
       run: |
         tree ${{ github.workspace }}
         docker build \
-          --file ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}/Dockerfile
+          --file ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}/Dockerfile \
           --build-arg VERSION=${{ matrix.service.version }} \
           -t ghcr.io/cloud-tek/${{ matrix.service.name }}:latest \
           -t ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ matrix.service.version }} \
