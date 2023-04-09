@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         service: ${{ fromJson(inputs.services) }}
-    name: ${{ matrix.service.id }}
+    name: "${{ matrix.service.area }}/${{ matrix.service.name }}"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -36,7 +36,6 @@ jobs:
       name: docker build
       working-directory: ${{ github.workspace }}
       run: |
-        tree ${{ github.workspace }}
         docker build \
           --file ${{ github.workspace }}/docker/${{ matrix.service.area }}/${{ matrix.service.name }}/Dockerfile \
           --build-arg VERSION=${{ matrix.service.version }} \
