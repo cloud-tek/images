@@ -13,9 +13,7 @@ on:
     - release/*
     paths:
       - ".github/workflows/**"
-      - "build/**"
-      - "src/**"
-      - "tests/**"
+      - "docker/**"
       - "GitVersion.yml"
   pull_request:
     types:
