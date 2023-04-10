@@ -47,7 +47,7 @@ jobs:
       working-directory: ${{ github.workspace }}/images/docker/${{ matrix.service.area }}/${{ matrix.service.name }}
       run: |
         docker push ghcr.io/cloud-tek/${{ matrix.service.name }}:latest
-        docker push ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ inputs.version }}
+        docker push ghcr.io/cloud-tek/${{ matrix.service.name }}:${{ matrix.service.version }}
     - shell: bash
       name: docker logout
       run: |
