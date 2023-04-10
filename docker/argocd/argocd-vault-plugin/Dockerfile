@@ -11,7 +11,7 @@ ARG VERSION
 RUN apk update && \
     apk add \
     curl \
-    gpg
+    gnupg
 # RUN apt-get update && \
 #     apt-get install -y \
 #         curl \
