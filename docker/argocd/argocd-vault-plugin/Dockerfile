@@ -11,7 +11,6 @@ ARG VERSION
 RUN apk update && \
     apk add \
     curl \
-    awscli \
     gpg
 # RUN apt-get update && \
 #     apt-get install -y \
